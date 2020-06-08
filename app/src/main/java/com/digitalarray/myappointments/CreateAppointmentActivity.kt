@@ -21,8 +21,13 @@ class CreateAppointmentActivity : AppCompatActivity() {
         setContentView(R.layout.activity_create_apointment)
 
         btnNext.setOnClickListener {
-            cvStep1.visibility = View.GONE
-            cvStep2.visibility = View.VISIBLE
+            if (etDescription.text.toString().length < 7) {
+                etDescription.error = getString(R.string.validate_appointment_description)
+            } else {
+                //Continue to step 2
+                cvStep1.visibility = View.GONE
+                cvStep2.visibility = View.VISIBLE
+            }
         }
 
         btnConfirmAppointment.setOnClickListener {
@@ -106,18 +111,24 @@ class CreateAppointmentActivity : AppCompatActivity() {
     private fun Int.twoDigits() = if (this >= 10) this.toString() else "0$this"
 
     override fun onBackPressed() {
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle(getString(R.string.dialog_create_appointment_exit_title))
-        builder.setMessage(getString(R.string.dialog_create_appointment_exit_message))
-        builder.setPositiveButton(getString(R.string.dialog_create_appointment_exit_positive_btn)) { _, _->
-            finish()
-        }
-        builder.setNegativeButton(getString(R.string.dialog_create_appointment_exit_negative_bt)){ dialog, _->
-            dialog.dismiss()
-        }
+        if (cvStep2.visibility == View.VISIBLE) {
+            cvStep2.visibility = View.GONE
+            cvStep1.visibility = View.VISIBLE
 
-        val dialog = builder.create()
-        dialog.show()
+        } else if (cvStep1.visibility == View.VISIBLE) {
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle(getString(R.string.dialog_create_appointment_exit_title))
+            builder.setMessage(getString(R.string.dialog_create_appointment_exit_message))
+            builder.setPositiveButton(getString(R.string.dialog_create_appointment_exit_positive_btn)) { _, _ ->
+                finish()
+            }
+            builder.setNegativeButton(getString(R.string.dialog_create_appointment_exit_negative_bt)) { dialog, _ ->
+                dialog.dismiss()
+            }
+
+            val dialog = builder.create()
+            dialog.show()
+        }
     }
 }
 
