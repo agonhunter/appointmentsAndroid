@@ -11,7 +11,7 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_create_apointment.*
 import java.util.*
 
-class CreateApointmentActivity : AppCompatActivity() {
+class CreateAppointmentActivity : AppCompatActivity() {
 
     private val selectedCalendar = Calendar.getInstance()
     private var selectedRadioButton: RadioButton? = null

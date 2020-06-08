@@ -1,6 +1,5 @@
 package com.digitalarray.myappointments
 
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -14,7 +13,7 @@ class MenuActivity : AppCompatActivity() {
         setContentView(R.layout.activity_menu)
 
         btnCreateAppointment.setOnClickListener {
-            val intent = Intent(this, CreateApointmentActivity::class.java)
+            val intent = Intent(this, CreateAppointmentActivity::class.java)
             startActivity(intent)
         }
 

@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".AppointmentsActivity" android:parentActivityName=".MenuActivity"/>
-        <activity android:name=".CreateApointmentActivity" android:parentActivityName=".MenuActivity"/>
+        <activity android:name=".CreateAppointmentActivity" android:parentActivityName=".MenuActivity"/>
         <activity android:name=".MenuActivity" />
         <activity android:name=".RegisterActivity" android:launchMode="singleInstance"/>
         <activity android:name=".MainActivity" android:launchMode="singleInstance">
