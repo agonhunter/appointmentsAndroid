@@ -1,5 +1,6 @@
 package com.digitalarray.myappointments
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -25,25 +26,27 @@ class CreateApointmentActivity : AppCompatActivity() {
         }
 
         btnConfirmAppointment.setOnClickListener {
-            Toast.makeText( this, "Cita registrada correctamente", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Cita registrada correctamente", Toast.LENGTH_LONG).show()
             finish()
         }
-        val specialtyOptions = arrayOf("SpecialtyA","SpecialtyB","SpecialtyC","SpecialtyD")
-        spinnerSpecialties.adapter = ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, specialtyOptions)
+        val specialtyOptions = arrayOf("SpecialtyA", "SpecialtyB", "SpecialtyC", "SpecialtyD")
+        spinnerSpecialties.adapter =
+            ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, specialtyOptions)
 
-        val doctorsOptions = arrayOf("DoctorA","DoctorB","DoctorC","DoctorD")
-        spinnerDoctors.adapter = ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, doctorsOptions)
+        val doctorsOptions = arrayOf("DoctorA", "DoctorB", "DoctorC", "DoctorD")
+        spinnerDoctors.adapter =
+            ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, doctorsOptions)
 
     }
 
-    fun onClickScheduleDate(v: View){
+    fun onClickScheduleDate(v: View) {
         val year = selectedCalendar.get(Calendar.YEAR)
         val month = selectedCalendar.get(Calendar.MONTH)
         val dayOfMonth = selectedCalendar.get(Calendar.DAY_OF_MONTH)
 
-        val listener = DatePickerDialog.OnDateSetListener {datePicker, y, m, d->
+        val listener = DatePickerDialog.OnDateSetListener { datePicker, y, m, d ->
             //Toast.makeText(this, "$y-$m-$d", Toast.LENGTH_SHORT).show()
-            selectedCalendar.set(y,m,d)
+            selectedCalendar.set(y, m, d)
             etScheduleDate.setText(
                 resources.getString(
                     R.string.date_format,
@@ -56,31 +59,31 @@ class CreateApointmentActivity : AppCompatActivity() {
 
         }
         //new dialog
-        val datePickerDialog = DatePickerDialog(this,listener,year,month,dayOfMonth)
+        val datePickerDialog = DatePickerDialog(this, listener, year, month, dayOfMonth)
         val datePicker = datePickerDialog.datePicker
         //set limits
         val calendar = Calendar.getInstance()
-        calendar.add(Calendar.DAY_OF_MONTH,1)
+        calendar.add(Calendar.DAY_OF_MONTH, 1)
         datePicker.minDate = selectedCalendar.timeInMillis //+1
-        calendar.add(Calendar.DAY_OF_MONTH,29)
+        calendar.add(Calendar.DAY_OF_MONTH, 29)
         datePicker.maxDate = calendar.timeInMillis  //+30
         //show dialog
         datePickerDialog.show()
 
-        }
+    }
 
-    private fun displayRadioButtons(){
+    private fun displayRadioButtons() {
 
-      //  radioGroup.clearCheck()
-      selectedRadioButton = null
-      radioGroupLeft.removeAllViews()
-      radioGroupRight.removeAllViews()
+        //  radioGroup.clearCheck()
+        selectedRadioButton = null
+        radioGroupLeft.removeAllViews()
+        radioGroupRight.removeAllViews()
 
 
-        val hours = arrayListOf("3:00 PM","3:30 PM","4:00 PM","4:30 PM")
+        val hours = arrayListOf("3:00 PM", "3:30 PM", "4:00 PM", "4:30 PM")
         var goToLeft = true
 
-        hours.forEach{
+        hours.forEach {
             val radioButton = RadioButton(this)
             radioButton.id = View.generateViewId()
             radioButton.text = it
@@ -100,6 +103,21 @@ class CreateApointmentActivity : AppCompatActivity() {
         }
     }
 
-    private fun Int.twoDigits() = if (this>=10) this.toString() else "0$this"
+    private fun Int.twoDigits() = if (this >= 10) this.toString() else "0$this"
+
+    override fun onBackPressed() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(getString(R.string.dialog_create_appointment_exit_title))
+        builder.setMessage(getString(R.string.dialog_create_appointment_exit_message))
+        builder.setPositiveButton(getString(R.string.dialog_create_appointment_exit_positive_btn)) { _, _->
+            finish()
+        }
+        builder.setNegativeButton(getString(R.string.dialog_create_appointment_exit_negative_bt)){ dialog, _->
+            dialog.dismiss()
+        }
+
+        val dialog = builder.create()
+        dialog.show()
+    }
 }
 
