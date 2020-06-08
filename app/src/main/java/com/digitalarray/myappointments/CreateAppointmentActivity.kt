@@ -2,13 +2,16 @@ package com.digitalarray.myappointments
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.RadioButton
 import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_create_apointment.*
+import androidx.appcompat.app.AppCompatActivity
+import kotlinx.android.synthetic.main.card_view_step_one.*
+import kotlinx.android.synthetic.main.card_view_step_two.*
+import kotlinx.android.synthetic.main.card_view_step_three.*
+
 import java.util.*
 
 class CreateAppointmentActivity : AppCompatActivity() {
@@ -30,6 +33,13 @@ class CreateAppointmentActivity : AppCompatActivity() {
             }
         }
 
+        btnNext2.setOnClickListener{
+            showAppointmentDataToConfirm()
+            //Continue to step 3
+            cvStep2.visibility = View.GONE
+            cvStep3.visibility = View.VISIBLE
+        }
+
         btnConfirmAppointment.setOnClickListener {
             Toast.makeText(this, "Cita registrada correctamente", Toast.LENGTH_LONG).show()
             finish()
@@ -41,7 +51,20 @@ class CreateAppointmentActivity : AppCompatActivity() {
         val doctorsOptions = arrayOf("DoctorA", "DoctorB", "DoctorC", "DoctorD")
         spinnerDoctors.adapter =
             ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, doctorsOptions)
+    }
 
+    private fun showAppointmentDataToConfirm(){
+        tvConfirmDescription.text = etDescription.text.toString()
+        tvConfirmSpecialty.text = spinnerSpecialties.selectedItem.toString()
+
+        val selectedRadioButtonId = radioGroupType.checkedRadioButtonId
+        val selectedRadioType = radioGroupType.findViewById<RadioButton>(selectedRadioButtonId)
+
+        tvConfirmType.text = selectedRadioType.text.toString()
+
+        tvConfirmDoctorName.text = spinnerDoctors.selectedItem.toString()
+        tvConfirmDate.text = etScheduleDate.text.toString()
+        tvConfirmTime.text = selectedRadioButton?.text.toString()
     }
 
     fun onClickScheduleDate(v: View) {
@@ -111,23 +134,30 @@ class CreateAppointmentActivity : AppCompatActivity() {
     private fun Int.twoDigits() = if (this >= 10) this.toString() else "0$this"
 
     override fun onBackPressed() {
-        if (cvStep2.visibility == View.VISIBLE) {
-            cvStep2.visibility = View.GONE
-            cvStep1.visibility = View.VISIBLE
-
-        } else if (cvStep1.visibility == View.VISIBLE) {
-            val builder = AlertDialog.Builder(this)
-            builder.setTitle(getString(R.string.dialog_create_appointment_exit_title))
-            builder.setMessage(getString(R.string.dialog_create_appointment_exit_message))
-            builder.setPositiveButton(getString(R.string.dialog_create_appointment_exit_positive_btn)) { _, _ ->
-                finish()
+        when {
+            cvStep3.visibility == View.VISIBLE -> {
+                cvStep3.visibility = View.GONE
+                cvStep2.visibility = View.VISIBLE
             }
-            builder.setNegativeButton(getString(R.string.dialog_create_appointment_exit_negative_bt)) { dialog, _ ->
-                dialog.dismiss()
-            }
+            cvStep2.visibility == View.VISIBLE -> {
+                cvStep2.visibility = View.GONE
+                cvStep1.visibility = View.VISIBLE
 
-            val dialog = builder.create()
-            dialog.show()
+            }
+            cvStep1.visibility == View.VISIBLE -> {
+                val builder = AlertDialog.Builder(this)
+                builder.setTitle(getString(R.string.dialog_create_appointment_exit_title))
+                builder.setMessage(getString(R.string.dialog_create_appointment_exit_message))
+                builder.setPositiveButton(getString(R.string.dialog_create_appointment_exit_positive_btn)) { _, _ ->
+                    finish()
+                }
+                builder.setNegativeButton(getString(R.string.dialog_create_appointment_exit_negative_bt)) { dialog, _ ->
+                    dialog.dismiss()
+                }
+
+                val dialog = builder.create()
+                dialog.show()
+            }
         }
     }
 }
