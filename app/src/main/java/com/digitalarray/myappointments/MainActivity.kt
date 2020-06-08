@@ -8,8 +8,13 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import com.digitalarray.myappointments.PreferenceHelper.get
 import com.digitalarray.myappointments.PreferenceHelper.set
+import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
+
+    private val snackBar by lazy {
+        Snackbar.make(mainLayout, R.string.press_back_again, Snackbar.LENGTH_LONG)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,22 +28,27 @@ class MainActivity : AppCompatActivity() {
         val session = preferences.getBoolean("session", false)
         */
         val preferences = PreferenceHelper.defaultPrefs(this)
-        if (preferences["session",false])
+        if (preferences["session", false])
             goToMenuActivity()
 
-        btnLogin.setOnClickListener{
+        btnLogin.setOnClickListener {
             //Validate
             createSessionPreference()
             goToMenuActivity()
         }
 
-        tvGoToRegister.setOnClickListener{
-            Toast.makeText(this, getString(R.string.please_fill_your_register_data), Toast.LENGTH_LONG).show()
+        tvGoToRegister.setOnClickListener {
+            Toast.makeText(
+                this,
+                getString(R.string.please_fill_your_register_data),
+                Toast.LENGTH_LONG
+            ).show()
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
     }
-    private fun createSessionPreference(){
+
+    private fun createSessionPreference() {
         /*val preferences = getSharedPreferences("general", Context.MODE_PRIVATE)
         val editor = preferences.edit()
         editor.putBoolean("session", true)
@@ -48,9 +58,17 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun goToMenuActivity(){
+    private fun goToMenuActivity() {
         val intent = Intent(this, MenuActivity::class.java)
         startActivity(intent)
         finish()
+    }
+
+    override fun onBackPressed() {
+        if (snackBar.isShown)
+            super.onBackPressed()
+        else
+            snackBar.show()
+
     }
 }
