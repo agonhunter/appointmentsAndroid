@@ -1,19 +1,21 @@
-package com.digitalarray.myappointments
+package com.digitalarray.myappointments.ui
 
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import com.digitalarray.myappointments.PreferenceHelper
 import kotlinx.android.synthetic.main.activity_main.*
 import com.digitalarray.myappointments.PreferenceHelper.get
 import com.digitalarray.myappointments.PreferenceHelper.set
+import com.digitalarray.myappointments.R
 import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
 
     private val snackBar by lazy {
-        Snackbar.make(mainLayout, R.string.press_back_again, Snackbar.LENGTH_LONG)
+        Snackbar.make(mainLayout,
+            R.string.press_back_again, Snackbar.LENGTH_LONG)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,7 +29,8 @@ class MainActivity : AppCompatActivity() {
         val preferences = getSharedPreferences("general", Context.MODE_PRIVATE)
         val session = preferences.getBoolean("session", false)
         */
-        val preferences = PreferenceHelper.defaultPrefs(this)
+        val preferences =
+            PreferenceHelper.defaultPrefs(this)
         if (preferences["session", false])
             goToMenuActivity()
 
@@ -53,7 +56,8 @@ class MainActivity : AppCompatActivity() {
         val editor = preferences.edit()
         editor.putBoolean("session", true)
         editor.apply()*/
-        val preferences = PreferenceHelper.defaultPrefs(this)
+        val preferences =
+            PreferenceHelper.defaultPrefs(this)
         preferences["session"] = true
 
     }

@@ -1,9 +1,9 @@
-package com.digitalarray.myappointments
+package com.digitalarray.myappointments.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.digitalarray.myappointments.R
 import com.digitalarray.myappointments.model.Appointment
 import kotlinx.android.synthetic.main.activity_appointments.*
 
@@ -40,6 +40,7 @@ class AppointmentsActivity : AppCompatActivity() {
         )
 
         rvAppointments.layoutManager = LinearLayoutManager(this)
-        rvAppointments.adapter = AppointmentAdapter(appointments)
+        rvAppointments.adapter =
+            AppointmentAdapter(appointments)
     }
 }
