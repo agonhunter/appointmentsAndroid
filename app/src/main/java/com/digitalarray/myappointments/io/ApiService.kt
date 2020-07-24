@@ -9,10 +9,10 @@ import retrofit2.http.GET
 interface ApiService {
 
     @GET("specialties")
-    abstract fun getSpecialties():Call<ArrayList<Specialty>>
+    fun getSpecialties():Call<ArrayList<Specialty>>
 
     companion object Factory{
-        private const val BASE_URL = "https://7243d1f30fb6.ngrok.io/api/"
+        private const val BASE_URL = "https://appointments.digitalarray.com.co/api/"
 
         fun create(): ApiService{
             val retrofit = Retrofit.Builder()

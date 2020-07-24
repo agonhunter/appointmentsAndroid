@@ -118,7 +118,7 @@ class CreateAppointmentActivity : AppCompatActivity() {
         tvConfirmTime.text = selectedTimeRadioBtn?.text.toString()
     }
 
-    fun onClickScheduleDate(v: View) {
+    fun onClickScheduledDate(v: View) {
         val year = selectedCalendar.get(Calendar.YEAR)
         val month = selectedCalendar.get(Calendar.MONTH)
         val dayOfMonth = selectedCalendar.get(Calendar.DAY_OF_MONTH)
@@ -182,7 +182,7 @@ class CreateAppointmentActivity : AppCompatActivity() {
         }
     }
 
-    private fun Int.twoDigits() = if (this >= 10) this.toString() else "0$this"
+    private fun Int.twoDigits() = if (this >= 10) this.toString() else "$this"
 
     override fun onBackPressed() {
         when {
